@@ -1,5 +1,5 @@
 import React from 'react';
-import { options } from '../../options';
+import { options } from '../options';
 import { getServerSession } from 'next-auth';
 import LogoutBTN from './LogoutBTN';
 import LoginBTN from './LoginBTN';

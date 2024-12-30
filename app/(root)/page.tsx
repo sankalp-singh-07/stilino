@@ -1,4 +1,4 @@
-import Searchbar from '../components/Searchbar';
+import Searchbar from '../../components/Searchbar';
 
 export default async function Home({
 	searchParams,
