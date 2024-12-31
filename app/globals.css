@@ -33,8 +33,16 @@ body {
 		@apply font-medium text-[12px] sm:text-[18px] text-white max-w-2xl text-center break-words;
 	}
 
-	.pink_container {
-		@apply w-full bg-primary min-h-[400px] pattern flex justify-center items-center flex-col py-10 px-3 rounded-lg;
+	.sub-heading-post {
+		@apply font-medium text-[12px] sm:text-[16px] text-white max-w-5xl text-center break-words;
+	}
+
+	.heading-post {
+		@apply uppercase px-4 py-2 tracking-tighter font-bold text-whiteBg md:text-[70px] sm:leading-[64px] sm:text-[54px] text-[35px] leading-[46px] max-w-7xl text-center my-5;
+	}
+
+	.hero_container {
+		@apply w-full bg-primary min-h-[400px] flex justify-center items-center flex-col py-10 px-3 rounded-lg;
 	}
 
 	.pattern {
@@ -43,8 +51,14 @@ body {
 			rgba(93, 173, 226, 0.2) 10%,
 			transparent 5%
 		);
-		background-size: 45px 45px, 20px 20px, 20px 20px;
-		background-position: 75px 75px, 50px 50px, 25px 25px;
+		background-size:
+			45px 45px,
+			20px 20px,
+			20px 20px;
+		background-position:
+			75px 75px,
+			50px 50px,
+			25px 25px;
 		background-repeat: repeat;
 	}
 
@@ -64,8 +78,16 @@ body {
 		@apply px-6 py-10 max-w-7xl mr-auto;
 	}
 
+	.post-container{
+		@apply 
+	}
+
 	.no-result {
 		@apply text-black text-sm font-normal;
+	}
+
+	.avatar{
+		@apply rounded-full w-12 h-12;
 	}
 
 	.item-card {

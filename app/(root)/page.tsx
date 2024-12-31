@@ -22,7 +22,7 @@ export default async function Home({
 	return (
 		<>
 			<div className="ml-4 mr-4 mt-3 mb-6 ">
-				<div className="pink_container">
+				<div className="hero_container pattern">
 					<h1 className="heading">Cook. Share. Inspire.</h1>
 					<p className="sub-heading">
 						Find, create, and share your favorite recipes with the

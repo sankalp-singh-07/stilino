@@ -48,7 +48,7 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 					<img
 						src={author?.image!}
 						alt={author?.name!}
-						className="rounded-full w-[48px] h-[48px]"
+						className="avatar"
 					/>
 				</Link>
 			</div>
