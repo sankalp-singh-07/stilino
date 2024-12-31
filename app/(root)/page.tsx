@@ -1,4 +1,4 @@
-import ItemCard from '@/components/ItemCard';
+import ItemCard, { ItemCardType } from '@/components/ItemCard';
 import Searchbar from '@/components/Searchbar';
 import { client } from '@/sanity/lib/client';
 import { RECIPES_QUERY } from '@/sanity/lib/queries';
@@ -12,7 +12,7 @@ export default async function Home({
 
 	const posts = await client.fetch(RECIPES_QUERY);
 
-	console.log(JSON.stringify(posts));
+	// console.log(JSON.stringify(posts));
 
 	return (
 		<div className="ml-4 mr-4 mt-3 mb-6 ">

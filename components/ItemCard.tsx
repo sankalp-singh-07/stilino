@@ -3,10 +3,13 @@ import { EyeIcon } from 'lucide-react';
 import React from 'react';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { Author, Recipe } from '@/sanity/types';
+
+export type ItemCardType = Omit<Recipe, 'author'> & { author?: Author };
 
 const ItemCard = ({ post }: { post: ItemCardType }) => {
 	const {
-		createdAt,
+		_createdAt,
 		views,
 		author,
 		title,
@@ -19,7 +22,7 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 	return (
 		<li className="item-card group">
 			<div className="flex justify-between">
-				<p className="item-card_date">{dateFormat(createdAt)}</p>
+				<p className="item-card_date">{dateFormat(_createdAt)}</p>
 				<div className="flex gap-1">
 					<EyeIcon className="size-6 text-primary" />
 					<span className="font-medium text-[16px] text-black">
