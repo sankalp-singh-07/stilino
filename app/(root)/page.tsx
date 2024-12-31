@@ -1,5 +1,7 @@
 import ItemCard from '@/components/ItemCard';
 import Searchbar from '@/components/Searchbar';
+import { client } from '@/sanity/lib/client';
+import { RECIPES_QUERY } from '@/sanity/lib/queries';
 
 export default async function Home({
 	searchParams,
@@ -8,18 +10,9 @@ export default async function Home({
 }) {
 	const query = (await searchParams).query;
 
-	const posts = [
-		{
-			createdAt: new Date(),
-			views: '55',
-			author: { _id: 1, name: 'Sankalp' },
-			_id: 1,
-			description: 'This is a description',
-			image: 'https://plus.unsplash.com/premium_photo-1677192451109-a7d3762a74fa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-			category: 'Vegan',
-			title: 'A plate of hot cross buns',
-		},
-	];
+	const posts = await client.fetch(RECIPES_QUERY);
+
+	console.log(JSON.stringify(posts));
 
 	return (
 		<div className="ml-4 mr-4 mt-3 mb-6 ">

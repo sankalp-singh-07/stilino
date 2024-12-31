@@ -43,11 +43,9 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 				</div>
 				<Link href={`/user/${author?._id}`}>
 					<img
-						src="https://static.vecteezy.com/system/resources/previews/011/490/381/original/happy-smiling-young-man-avatar-3d-portrait-of-a-man-cartoon-character-people-illustration-isolated-on-white-background-vector.jpg"
+						src={author?.image!}
 						alt={author?.name!}
-						width={48}
-						height={48}
-						className="rounded-full"
+						className="rounded-full w-[48px] h-[48px]"
 					/>
 				</Link>
 			</div>
