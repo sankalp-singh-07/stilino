@@ -1,8 +1,10 @@
 import ItemCard, { ItemCardType } from '@/components/ItemCard';
 import Searchbar from '@/components/Searchbar';
+import { options } from '@/options';
 // import { client } from '@/sanity/lib/client';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { RECIPES_QUERY } from '@/sanity/lib/queries';
+import { getServerSession } from 'next-auth/next';
 
 export default async function Home({
 	searchParams,
@@ -14,6 +16,9 @@ export default async function Home({
 	const params = { search: query || null };
 
 	// const posts = await client.fetch(RECIPES_QUERY);
+
+	const session = await getServerSession(options);
+	if (session) console.log(session?.id);
 
 	const { data: posts } = await sanityFetch({ query: RECIPES_QUERY, params });
 
