@@ -5,15 +5,87 @@ import { Textarea } from './ui/textarea';
 import MarkdownEditor from '@uiw/react-markdown-editor';
 import { Button } from './ui/button';
 import { Send } from 'lucide-react';
+import { formSchema } from '@/lib/validation';
+import { toast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+import { createContent } from '@/lib/action';
 
 const ContentForm = () => {
 	const [error, setError] = useState<Record<string, string>>({});
 	const [valueContent, setValueContent] = useState('');
-	const isPending = false;
+	const router = useRouter();
+
+	const handleSubmit = async (prevState: any, formData: FormData) => {
+		try {
+			const formValues = {
+				title: formData.get('title') as string,
+				description: formData.get('description') as string,
+				category: formData.get('category') as string,
+				link: formData.get('link') as string,
+				valueContent,
+			};
+
+			await formSchema.parseAsync(formValues);
+
+			const result = await createContent(
+				prevState,
+				formData,
+				valueContent
+			);
+
+			if (result.status == 'SUCCESS') {
+				toast({
+					title: 'Success',
+					description:
+						'Your content has been created successfully. Taking you to content. Please wait ... 😁',
+				});
+
+				router.push(`/content/${result._id}`);
+			}
+
+			return result;
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				const fieldErorrs = error.flatten().fieldErrors;
+
+				setError(fieldErorrs as unknown as Record<string, string>);
+
+				toast({
+					title: 'Error',
+					description: 'Please check your inputs and try again',
+					variant: 'destructive',
+				});
+
+				return {
+					...prevState,
+					error: 'Validation failed',
+					status: 'ERROR',
+				};
+			}
+
+			toast({
+				title: 'Error',
+				description: 'An unexpected error has occurred',
+				variant: 'destructive',
+			});
+
+			return {
+				...prevState,
+				error: 'An unexpected error has occurred',
+				status: 'ERROR',
+			};
+		}
+	};
+
+	const [state, formAction, isPending] = useActionState(handleSubmit, {
+		error: '',
+		status: 'INITIAL',
+	});
 
 	return (
 		<>
-			<form action={() => {}} className="content-form">
+			<form action={formAction} className="content-form">
 				<div>
 					<label htmlFor="title" className="content-form_label">
 						Title
@@ -81,19 +153,26 @@ const ContentForm = () => {
 				</div>
 
 				<div data-color-mode="light">
-					<label htmlFor="pitch" className="content-form_label">
+					<label
+						htmlFor="valueContent"
+						className="content-form_label"
+					>
 						Pitch
 					</label>
 					<MarkdownEditor
 						value={valueContent}
-						onChange={setValueContent}
-						id="pitch"
-						style={{
-							borderRadius: 30,
-							overflow: 'hidden',
-							height: '300px',
+						onChange={(value) => setValueContent(value || '')}
+						id="valueContent"
+						preview="edit"
+						height={300}
+						style={{ borderRadius: 20, overflow: 'hidden' }}
+						textareaProps={{
+							placeholder:
+								'Briefly describe your idea and what problem it solves',
 						}}
-						placeholder="Briefly describe your idea and what problem it solves"
+						previewOptions={{
+							disallowedElements: ['style'],
+						}}
 					/>
 					{error.pitch && (
 						<p className="content-form_error">{error.pitch}</p>
