@@ -2,21 +2,19 @@ import { dateFormat } from '@/lib/utils';
 import React from 'react';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { Author, Recipe } from '@/sanity/types';
+import { Author, Recipes } from '@/sanity/types';
 
-export type ItemCardType = Omit<Recipe, 'author'> & { author?: Author };
+export type ItemCardType = Omit<Recipes, 'author'> & { author?: Author };
 
 const ItemCard = ({ post }: { post: ItemCardType }) => {
-	const {
-		_createdAt,
-		views,
-		author,
-		title,
-		category,
-		_id,
-		image,
-		description,
-	} = post;
+	const { _createdAt, author, title, category, _id, media, description } =
+		post;
+
+	let mediaAsset = null;
+
+	if (media) {
+		mediaAsset = media[0]?.asset;
+	}
 
 	return (
 		<li className="item-card group">
@@ -48,16 +46,27 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 
 			<Link href={`/content/${_id}`}>
 				<p className="item-card_desc">{description}</p>
-
-				<img src={image} alt="placeholder" className="item-card_img" />
+				{mediaAsset && (
+					<img
+						src={mediaAsset?.url || null}
+						alt="placeholder"
+						className="item-card_img"
+					/>
+				)}
 			</Link>
 
-			<div className="flex justify-between gap-3 mt-5">
-				<Link href={`/?query=${category?.toLowerCase()}`}>
-					<p className="font-medium text-[16px] text-black">
-						{category}
-					</p>
-				</Link>
+			<div className="flex justify-between mt-5">
+				<div className="flex flex-wrap items-center justify-start gap-2 w-1/2">
+					{category?.map((set, ind) => (
+						<div key={ind}>
+							<Link href={`/?query=${set?.toLowerCase()}`}>
+								<p className="px-3 py-2 border-2 border-black rounded-full font-semibold text-[14px] text-black">
+									{set}
+								</p>
+							</Link>
+						</div>
+					))}
+				</div>
 				<Button className="item-card_btn" asChild>
 					<Link href={`/content/${_id}`}>Details</Link>
 				</Button>

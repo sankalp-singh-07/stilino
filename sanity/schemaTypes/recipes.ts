@@ -63,15 +63,13 @@ export const recipes = defineType({
 			title: 'Media',
 			type: 'array',
 			of: [
-				{ type: 'image', options: { hotspot: true } },
 				{
-					type: 'file',
-					title: 'Video',
-					options: { accept: 'video/*' },
+					type: 'image',
+					options: { hotspot: true },
 				},
 			],
 			validation: (Rule) =>
-				Rule.max(1).error('Only one file (image or video) is allowed.'),
+				Rule.max(1).error('Only one image is allowed.'),
 		}),
 
 		defineField({
