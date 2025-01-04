@@ -34,7 +34,7 @@ body {
 	}
 
 	.sub-heading-post {
-		@apply font-medium text-[12px] sm:text-[16px] text-white max-w-5xl text-center break-words;
+		@apply font-medium text-[14px] sm:text-[18px] text-white max-w-5xl text-center break-words;
 	}
 
 	.heading-post {
@@ -42,7 +42,7 @@ body {
 	}
 
 	.hero_container {
-		@apply w-full bg-primary min-h-[400px] flex justify-center items-center flex-col py-10 px-3 rounded-lg;
+		@apply w-full bg-primary md:min-h-[400px] min-h-[320px] flex justify-center items-center flex-col md:py-10 py-3 px-3 rounded-lg;
 	}
 
 	.pattern {

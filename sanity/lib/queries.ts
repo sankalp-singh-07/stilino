@@ -12,11 +12,9 @@ export const RECIPES_QUERY =
     image,
     bio
   },
-  views,
   description,
   category,
-  media[] {
-    _type == "image" => {
+     media[] {
       _type,
       asset -> {
         _id,
@@ -24,14 +22,6 @@ export const RECIPES_QUERY =
       },
       hotspot
     },
-    _type == "file" => {
-      _type,
-      asset -> {
-        _id,
-        url
-      }
-    }
-  },
   ingredients[] {
     quantity,
     product
@@ -42,21 +32,39 @@ export const RECIPES_QUERY =
   },
 }`);
 
-export const RECIPE_BY_ID_QUERY =
-	defineQuery(`*[_type == "recipe" && _id == $id][0]{
-  _id, 
-  title, 
-  slug,
-  _createdAt,
-  author -> {
-    _id, name, username, image, bio
-  }, 
-  views,
-  description,
-  category,
-  image,
-  pitch,
-}`);
+export const RECIPE_BY_ID_QUERY = defineQuery(`
+  *[_type == "recipes" && _id == $id][0]{
+    _id, 
+    title, 
+    slug,
+    _createdAt,
+    author -> {
+      _id, 
+      name, 
+      username, 
+      image, 
+      bio
+    }, 
+    description,
+    category,
+    media[] {
+      _type,
+      asset -> {
+        _id,
+        url
+      },
+      hotspot
+    },
+  ingredients[] {
+    quantity,
+    product
+  },
+  steps[] {
+    instruction,
+    time
+  },
+  }
+`);
 
 export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
   *[_type == "author" && id == $id][0]{

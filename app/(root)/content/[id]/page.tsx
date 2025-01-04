@@ -11,39 +11,65 @@ export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
+	console.log(id);
 
 	const post = await client.fetch(RECIPE_BY_ID_QUERY, { id });
 
 	if (!post) return notFound();
 
 	const md = markdownit();
-	const contentParsed = md.render(post?.pitch || '');
+	// const contentParsed = md.render(post?.pitch || '');
+	console.log(post);
+
+	let totalTime = 0;
+
+	const {
+		_createdAt,
+		author,
+		title,
+		category,
+		_id,
+		media,
+		description,
+		ingredients,
+		steps,
+	} = post;
+
+	let mediaAsset = null;
+
+	if (media) {
+		mediaAsset = media[0]?.asset;
+	}
+
+	console.log(ingredients, steps);
 
 	return (
 		<>
 			<div className="ml-4 mr-4 mt-3 mb-6 ">
 				<div className="hero_container">
 					<p className="sub-heading-post">
-						Published on {dateFormat(post._createdAt)}
+						Published on {dateFormat(_createdAt)}
 					</p>
-					<h1 className="heading-post">{post.title}</h1>
-					<p className="sub-heading-post">{post.description}</p>
-					<Link href={`/?query=${post.category?.toLowerCase()}`}>
-						<p className="text-white text-sm font-medium bg-red-400 px-3 py-2 mt-8 rounded">
-							{post.category}
-						</p>
-					</Link>
+					<h1 className="heading-post">{title}</h1>
+					<p className="sub-heading-post">{description}</p>
+					<div className="flex flex-wrap items-center justify-center gap-2 w-1/2">
+						{category?.map((set: string, ind: number) => (
+							<div key={ind}>
+								<Link href={`/?query=${set?.toLowerCase()}`}>
+									<p className="text-white text-sm font-medium bg-red-400 px-3 py-2 mt-8 rounded-full">
+										{set}
+									</p>
+								</Link>
+							</div>
+						))}
+					</div>
 				</div>
 				<div className="w-full bg-primary mt-6 h-fit flex justify-between items-center py-6 px-8 rounded-lg">
 					<Link
-						href={`/user/${post.author?._id}`}
+						href={`/user/${author?._id}`}
 						className="h-full text-white flex gap-5 items-center"
 					>
-						<img
-							src={post.author.image}
-							alt="A"
-							className="avatar"
-						/>
+						<img src={author.image} alt="A" className="avatar" />
 						<div>
 							<h1 className="uppercase">sankalp</h1>
 							<h1>@sankalp</h1>
@@ -53,13 +79,13 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						<div className="like flex items-center cursor-pointer gap-1">
 							<Heart className="size-6 text-white hover:text-red-800" />
 							<p className="text-white text-base font-medium">
-								{post.views}
+								20
 							</p>
 						</div>
 						<div className="like flex items-center cursor-pointer gap-1">
 							<MessageCircle className="size-6 text-white" />
 							<p className="text-white text-base font-medium">
-								{post.views}
+								31
 							</p>
 						</div>
 						<div className="like flex items-center cursor-pointer">
@@ -68,14 +94,61 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 					</div>
 				</div>
 				<div className="mt-6 md:w-[60vw] md:h-[60vh] sm:w-[80vw] sm:h-[40vh]  max-w-7xl rounded-lg mx-auto flex justify-center overflow-hidden border-4 border-primary">
-					<img
-						src={post.image}
-						alt="content-main-image"
-						className="w-full h-full object-cover"
-					/>
+					{mediaAsset && (
+						<img
+							src={mediaAsset?.url || null}
+							alt="placeholder"
+							className="w-full h-full object-cover"
+						/>
+					)}
 				</div>
-				<div className="mt-6 md:w-[60vw] sm:w-[80vw] h-fit px-7 py-5  max-w-7xl rounded-lg mx-auto flex justify-center overflow-hidden border-4 border-primary text-lg leading-relaxed">
-					{contentParsed ? (
+				<div className="mt-6 md:w-[60vw] sm:w-[80vw] h-fit rounded-lg mx-auto overflow-hidden text-lg font-medium leading-relaxed flex items-start gap-2">
+					<div className="w-fit border-4 border-primary px-7 py-5 rounded-lg">
+						<h1 className="text-2xl underline mb-3">INGREDIENTS</h1>
+						{ingredients.map(
+							(
+								ingred: { quantity: string; product: string },
+								ind: number
+							) => (
+								<div
+									key={ind}
+									className="flex items-center gap-2 "
+								>
+									<p className="flex items-center bg-primary my-2 px-3 rounded-lg text-white">
+										{ingred.quantity} : {ingred.product}
+									</p>
+								</div>
+							)
+						)}
+					</div>
+					<div className="w-fit border-4 border-primary px-7 py-5 rounded-lg">
+						<h1 className="text-2xl underline mb-4">
+							STEPS TO MAKE THIS DISH
+						</h1>
+						{steps.map(
+							(
+								step: { instruction: string; time: number },
+								ind: number
+							) => {
+								totalTime += step.time;
+								return (
+									<div
+										key={ind}
+										className="flex items-center gap-2 mb-3  bg-primary text-white justify-between rounded-lg"
+									>
+										<p className="px-3 py-2">
+											Instruction : {step.instruction}...
+										</p>
+
+										<p className="px-3 py-2 bg-slate-600 rounded-r-lg ">
+											Time (in minutes) : {step.time}
+										</p>
+									</div>
+								);
+							}
+						)}
+					</div>
+					{/* {contentParsed ? (
 						<article
 							className="prose"
 							dangerouslySetInnerHTML={{ __html: contentParsed }}
@@ -84,7 +157,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						<p className="no-result">
 							Nothing to display here 🥲...
 						</p>
-					)}
+					)} */}
 				</div>
 			</div>
 		</>
