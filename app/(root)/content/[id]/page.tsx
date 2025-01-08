@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import markdownit from 'markdown-it';
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
@@ -102,8 +102,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						/>
 					)}
 				</div>
-				<div className="mt-6 md:w-[60vw] sm:w-[80vw] h-fit rounded-lg mx-auto overflow-hidden text-lg font-medium leading-relaxed flex items-start gap-2">
-					<div className="w-fit border-4 border-primary px-7 py-5 rounded-lg">
+				<div className="mt-6 mx-auto h-fit rounded-lg leading-relaxed text-sm md:text-base md:flex items-start gap-2 md:w-[60vw] sm:w-[80vw] overflow-hidden">
+					<div className="w-full md:w-fit border-4 border-primary px-7 py-5 rounded-lg mb-4">
 						<h1 className="text-2xl underline mb-3">INGREDIENTS</h1>
 						{ingredients.map(
 							(
@@ -112,52 +112,51 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 							) => (
 								<div
 									key={ind}
-									className="flex items-center gap-2 "
+									className="flex items-center gap-2 my-2"
 								>
-									<p className="flex items-center bg-primary my-2 px-3 rounded-lg text-white">
+									<p className="flex items-center py-2 px-3 bg-primary text-white rounded-lg">
 										{ingred.quantity} : {ingred.product}
 									</p>
 								</div>
 							)
 						)}
 					</div>
-					<div className="w-fit border-4 border-primary px-7 py-5 rounded-lg">
-						<h1 className="text-2xl underline mb-4">
-							STEPS TO MAKE THIS DISH
-						</h1>
-						{steps.map(
-							(
-								step: { instruction: string; time: number },
-								ind: number
-							) => {
-								totalTime += step.time;
-								return (
-									<div
-										key={ind}
-										className="flex items-center gap-2 mb-3  bg-primary text-white justify-between rounded-lg"
-									>
-										<p className="px-3 py-2">
-											Instruction : {step.instruction}...
-										</p>
 
-										<p className="px-3 py-2 bg-slate-600 rounded-r-lg ">
-											Time (in minutes) : {step.time}
-										</p>
-									</div>
-								);
-							}
-						)}
+					<div>
+						<div className="w-fit border-4 border-primary px-7 py-5 rounded-lg">
+							<h1 className="text-2xl underline mb-4">
+								STEPS TO MAKE THIS DISH
+							</h1>
+							{steps.map(
+								(
+									step: { instruction: string; time: number },
+									ind: number
+								) => {
+									totalTime += step.time;
+									return (
+										<div
+											key={ind}
+											className="flex items-stretch justify-between my-2 text-white rounded-lg"
+										>
+											<p className="flex-1 px-3 py-2 bg-primary rounded-lg md:rounded-l-lg md:rounded-r-none">
+												Instruction: {step.instruction}.
+											</p>
+
+											<p className="hidden md:flex w-24 px-3 py-2 bg-slate-600 rounded-r-lg items-center justify-center text-center">
+												Time: {step.time} min
+											</p>
+										</div>
+									);
+								}
+							)}
+						</div>
+
+						<div className="w-full mt-4 border-4 border-primary bg-primary px-7 py-5 rounded-lg">
+							<h1 className="text-2xl font-semibold text-center text-white">
+								Total Time: {totalTime} minutes
+							</h1>
+						</div>
 					</div>
-					{/* {contentParsed ? (
-						<article
-							className="prose"
-							dangerouslySetInnerHTML={{ __html: contentParsed }}
-						/>
-					) : (
-						<p className="no-result">
-							Nothing to display here 🥲...
-						</p>
-					)} */}
 				</div>
 			</div>
 		</>
