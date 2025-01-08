@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import ItemCard, { ItemCardType } from '@/components/ItemCard';
 import Searchbar from '@/components/Searchbar';
 import { options } from '@/options';
@@ -53,6 +54,7 @@ export default async function Home({
 				</div>
 			</div>
 			<SanityLive />
+			<Footer />
 		</>
 	);
 }
