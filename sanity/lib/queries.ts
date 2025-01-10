@@ -91,16 +91,34 @@ export const AUTHOR_BY_ID_QUERY = defineQuery(`
     `);
 
 export const RECIPES_BY_AUTHOR_QUERY =
-	defineQuery(`*[_type == "recipe" && author._ref == $id] | order(_createdAt desc) {
-  _id, 
-  title, 
-  slug,
-  _createdAt,
-  author -> {
-    _id, name, image, bio
-  }, 
-  views,
-  description,
-  category,
-  image,
+	defineQuery(`*[_type == "recipes" && author._ref == $id] | order(_createdAt desc) {
+    _id, 
+    title, 
+    slug,
+    _createdAt,
+    author -> {
+      _id, 
+      name, 
+      username, 
+      image, 
+      bio
+    }, 
+    description,
+    category,
+    media[] {
+      _type,
+      asset -> {
+        _id,
+        url
+      },
+      hotspot
+    },
+  ingredients[] {
+    quantity,
+    product
+  },
+  steps[] {
+    instruction,
+    time
+  },
 }`);

@@ -82,12 +82,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 								20
 							</p>
 						</div>
-						<div className="like flex items-center cursor-pointer gap-1">
-							<MessageCircle className="size-6 text-white" />
-							<p className="text-white text-base font-medium">
-								31
-							</p>
-						</div>
 						<div className="like flex items-center cursor-pointer">
 							<Share className="size-6 text-white" />
 						</div>
