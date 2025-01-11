@@ -1,17 +1,27 @@
 import { dateFormat } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
 import { RECIPE_BY_ID_QUERY } from '@/sanity/lib/queries';
-import { Heart, MessageCircle, Share } from 'lucide-react';
+import { Heart, Share } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import markdownit from 'markdown-it';
-
+import { getLikes } from '@/lib/action';
+import Likes from '@/components/Likes';
+import { getServerSession } from 'next-auth';
+import { options } from '@/options';
+import LikeButton from '@/components/LikeHelper';
 // export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
-	console.log(id);
+	// console.log(id);
+
+	const likesCount = getLikes(id);
+
+	const session = await getServerSession(options);
+	const userId = session.id;
+	// console.log(userId);
 
 	const post = await client.fetch(RECIPE_BY_ID_QUERY, { id });
 
@@ -76,11 +86,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						</div>
 					</Link>
 					<div className="h-full  gap-7 flex items-center">
-						<div className="like flex items-center cursor-pointer gap-1">
-							<Heart className="size-6 text-white hover:text-red-800" />
-							<p className="text-white text-base font-medium">
-								20
-							</p>
+						<div className="flex cursor-pointer gap-1 items-center">
+							<LikeButton postId={id} userId={userId} />
+							<Likes postId={id} initialLikes={likesCount} />
 						</div>
 						<div className="like flex items-center cursor-pointer">
 							<Share className="size-6 text-white" />

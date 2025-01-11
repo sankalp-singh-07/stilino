@@ -5,6 +5,8 @@ import { getServerSession } from 'next-auth/next';
 import { parseServerActionResponse } from './utils';
 import slugify from 'slugify';
 import { writeClient } from '@/sanity/lib/write';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebase';
 
 export const createContent = async (
 	prevState: any,
@@ -60,4 +62,17 @@ export const createContent = async (
 			status: 'ERROR',
 		});
 	}
+};
+
+export const getLikes = async (id: string) => {
+	// console.log(id);
+
+	const postRef = doc(db, 'likes', id);
+	const postSnap = await getDoc(postRef);
+
+	const likesCount = postSnap.exists()
+		? postSnap.data()?.users.length || 0
+		: 0;
+
+	return likesCount;
 };
