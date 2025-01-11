@@ -65,8 +65,6 @@ export const createContent = async (
 };
 
 export const getLikes = async (id: string) => {
-	// console.log(id);
-
 	const postRef = doc(db, 'likes', id);
 	const postSnap = await getDoc(postRef);
 
@@ -75,4 +73,20 @@ export const getLikes = async (id: string) => {
 		: 0;
 
 	return likesCount;
+};
+
+export const getLikedPosts = async (id: string) => {
+	try {
+		const userRef = doc(db, 'users', id);
+		const userSnap = await getDoc(userRef);
+
+		if (!userSnap.exists()) {
+			return [];
+		}
+		const { likedPosts = [] } = userSnap.data();
+		return likedPosts;
+	} catch (error) {
+		console.log('Error getting liked posts', error);
+		return [];
+	}
 };

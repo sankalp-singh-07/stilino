@@ -81,8 +81,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 					>
 						<img src={author.image} alt="A" className="avatar" />
 						<div>
-							<h1 className="uppercase">sankalp</h1>
-							<h1>@sankalp</h1>
+							<h1 className="uppercase">{author.name}</h1>
+							<h1>@{author.username}</h1>
 						</div>
 					</Link>
 					<div className="h-full  gap-7 flex items-center">
