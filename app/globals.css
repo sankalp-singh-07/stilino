@@ -115,7 +115,7 @@ body {
 	}
 
 	.content-form {
-		@apply max-w-2xl mx-auto bg-whiteBg my-10 space-y-8 px-6;
+		@apply max-w-3xl px-10 py-16 mx-4 border-4 border-primary rounded-lg sm:mx-auto  my-10 space-y-8;
 	}
 
 	.content-form_label {
@@ -123,11 +123,24 @@ body {
 	}
 
 	.content-form_input {
-		@apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black placeholder:text-opacity-50  !important;
+		@apply border-[3px] border-primary px-5 py-7 text-[18px] text-black font-medium rounded-lg mt-3 placeholder:text-black placeholder:text-opacity-50 focus-within:border-secondary !important;
+	}
+
+	.category-style {
+		@apply px-4 py-2 bg-primary rounded-lg text-white font-medium text-sm mx-1;
+	}
+
+	.hide-scroll {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.hide-scroll::-webkit-scrollbar {
+		display: none;
 	}
 
 	.content-form_textarea {
-		@apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black placeholder:text-opacity-50 !important;
+		@apply border-[3px] border-primary p-5 text-[18px] text-black font-medium rounded-lg mt-3 placeholder:text-black placeholder:text-opacity-50 focus-within:border-secondary !important;
 	}
 
 	.content-form_error {
@@ -139,7 +152,7 @@ body {
 	}
 
 	.content-form_btn {
-		@apply bg-primary border-[4px] border-black rounded-full p-5 min-h-[70px] w-full font-bold text-[18px] !important;
+		@apply bg-primary border-[4px] border-black uppercase rounded-lg p-5 min-h-[60px] w-full text-white font-bold text-[18px] hover:text-primary hover:bg-secondary !important;
 	}
 
 	.profile_container {

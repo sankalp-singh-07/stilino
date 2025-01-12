@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
-import { Send } from 'lucide-react';
+import { Loader2, Send } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { createContent, uploadImageToSanity } from '@/lib/action';
 import { nanoid } from 'nanoid';
@@ -126,122 +126,179 @@ const ContentForm = () => {
 	};
 
 	return (
-		<div className="content-form">
-			<div>
-				<label htmlFor="title">Title</label>
-				<Input
-					id="title"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-					required
-				/>
-				{error.title && <p>{error.title.join(', ')}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="description">Description</label>
-				<Textarea
-					id="description"
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-					required
-				/>
-				{error.description && <p>{error.description.join(', ')}</p>}
-			</div>
-
-			<div>
-				<label>Categories</label>
-				<Input
-					placeholder="Type and press Enter"
-					onKeyDown={handleAddCategory}
-				/>
-				<div>
-					{categories.map((category, index) => (
-						<span key={index}>{category}</span>
-					))}
+		<>
+			<div className="mx-4 mt-3 mb-6 ">
+				<div className="w-full bg-primary md:min-h-[120px] min-h-[120px] flex justify-center items-center flex-col md:py-10 py-3 px-3 rounded-lg">
+					<h1 className="uppercase px-4 py-2 tracking-tighter font-semibold text-whiteBg md:text-[60px] sm:leading-[64px] sm:text-[44px] text-[24px] leading-[30px] max-w-5xl text-center my-5">
+						Let's <span className="text-secondary">cook</span>{' '}
+						something <span className="text-secondary">YUMMY</span>.
+					</h1>
 				</div>
 			</div>
-
-			<div>
-				<label>Upload Image</label>
-				<Input
-					type="file"
-					accept="image/*"
-					onChange={(e) => setMediaFile(e.target.files?.[0] || null)}
-				/>
-				{mediaFile && <p>Selected File: {mediaFile.name}</p>}
-			</div>
-
-			<div>
-				<label>Ingredients</label>
+			<div className="content-form overflow-hidden">
 				<div>
+					<label htmlFor="title" className="content-form_label">
+						Title
+					</label>
 					<Input
-						placeholder="Quantity"
-						value={newIngredient.quantity}
-						onChange={(e) =>
-							setNewIngredient({
-								...newIngredient,
-								quantity: e.target.value,
-							})
-						}
+						id="title"
+						value={title}
+						onChange={(e) => setTitle(e.target.value)}
+						required
+						className="content-form_input"
+						placeholder="Recipe Title"
 					/>
-					<Input
-						placeholder="Product"
-						value={newIngredient.product}
-						onChange={(e) =>
-							setNewIngredient({
-								...newIngredient,
-								product: e.target.value,
-							})
-						}
-					/>
-					<Button onClick={handleAddIngredient}>
-						Add Ingredient
-					</Button>
+					{error.title && <p>{error.title.join(', ')}</p>}
 				</div>
-				<ul>
-					{ingredients.map((ing, idx) => (
-						<li key={idx}>{`${ing.quantity} - ${ing.product}`}</li>
-					))}
-				</ul>
-			</div>
 
-			<div>
-				<label>Steps</label>
 				<div>
+					<label htmlFor="description" className="content-form_label">
+						Description
+					</label>
 					<Textarea
-						placeholder="Instruction"
-						value={newStep.instruction}
-						onChange={(e) =>
-							setNewStep({
-								...newStep,
-								instruction: e.target.value,
-							})
-						}
+						id="description"
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+						required
+						className="content-form_textarea"
+						placeholder="Recipe Description"
 					/>
-					<Input
-						type="number"
-						placeholder="Time (minutes)"
-						value={newStep.time}
-						onChange={(e) =>
-							setNewStep({ ...newStep, time: e.target.value })
-						}
-					/>
-					<Button onClick={handleAddStep}>Add Step</Button>
+					{error.description && <p>{error.description.join(', ')}</p>}
 				</div>
-				<ul>
-					{steps.map((step, idx) => (
-						<li
-							key={idx}
-						>{`${step.instruction} - ${step.time} mins`}</li>
-					))}
-				</ul>
-			</div>
 
-			<Button onClick={handleSubmit}>
-				<Send /> {isPending ? 'Submitting...' : 'Submit Your Recipe'}
-			</Button>
-		</div>
+				<div>
+					<label className="content-form_label">Categories</label>
+					<Input
+						placeholder="Type and press ENTER"
+						onKeyDown={handleAddCategory}
+						className="content-form_input"
+					/>
+					<div className="mt-4 py-2 overflow-scroll hide-scroll">
+						{categories.map((category, index) => (
+							<span key={index} className="category-style">
+								{category}
+							</span>
+						))}
+					</div>
+				</div>
+
+				<div>
+					<label className="content-form_label">Upload Image</label>
+					<Input
+						type="file"
+						accept="image/*"
+						onChange={(e) =>
+							setMediaFile(e.target.files?.[0] || null)
+						}
+						className="content-form_input cursor-pointer"
+					/>
+					{mediaFile && (
+						<p className="text-sm font-medium mt-2 ml-2 overflow-scroll hide-scroll">
+							Selected File: {mediaFile.name}
+						</p>
+					)}
+				</div>
+
+				<div>
+					<label className="content-form_label">Ingredients</label>
+					<div>
+						<Input
+							placeholder="Quantity"
+							className="content-form_input"
+							value={newIngredient.quantity}
+							onChange={(e) =>
+								setNewIngredient({
+									...newIngredient,
+									quantity: e.target.value,
+								})
+							}
+						/>
+						<Input
+							placeholder="Product"
+							className="content-form_input mb-3"
+							value={newIngredient.product}
+							onChange={(e) =>
+								setNewIngredient({
+									...newIngredient,
+									product: e.target.value,
+								})
+							}
+						/>
+						<Button
+							onClick={handleAddIngredient}
+							className="content-form_btn"
+						>
+							Add Ingredient
+						</Button>
+					</div>
+					<ul>
+						{ingredients.map((ing, idx) => (
+							<li
+								key={idx}
+								className="mt-2 ml-3 font-medium"
+							>{`${ing.quantity} - ${ing.product}`}</li>
+						))}
+					</ul>
+				</div>
+
+				<div>
+					<label className="content-form_label">Steps</label>
+					<div>
+						<Textarea
+							placeholder="Instruction"
+							className="content-form_textarea"
+							value={newStep.instruction}
+							onChange={(e) =>
+								setNewStep({
+									...newStep,
+									instruction: e.target.value,
+								})
+							}
+						/>
+						<Input
+							type="number"
+							placeholder="Time (minutes)"
+							className="content-form_input mb-3"
+							value={newStep.time}
+							onChange={(e) =>
+								setNewStep({ ...newStep, time: e.target.value })
+							}
+						/>
+						<Button
+							onClick={handleAddStep}
+							className="content-form_btn"
+						>
+							Add Step
+						</Button>
+					</div>
+					<ul>
+						{steps.map((step, idx) => (
+							<li
+								key={idx}
+								className="mt-2 ml-3 font-medium"
+							>{`${step.instruction} - ${step.time} mins`}</li>
+						))}
+					</ul>
+				</div>
+
+				<Button
+					onClick={handleSubmit}
+					className="content-form_btn"
+					disabled={isPending}
+				>
+					{!isPending ? (
+						<>
+							<Send /> Submit Your Recipe
+						</>
+					) : (
+						<>
+							<Loader2 className="animate-spin" />
+							Submitting...
+						</>
+					)}
+				</Button>
+			</div>
+		</>
 	);
 };
 
