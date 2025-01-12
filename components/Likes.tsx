@@ -9,9 +9,9 @@ const Likes = ({
 	initialLikes,
 }: {
 	postId: string;
-	initialLikes: Promise<any>;
+	initialLikes: number;
 }) => {
-	const [likes, setLikes] = useState(initialLikes);
+	const [likes, setLikes] = useState<number>(initialLikes);
 
 	useEffect(() => {
 		const postRef = doc(db, 'likes', postId);

@@ -7,46 +7,57 @@ import slugify from 'slugify';
 import { writeClient } from '@/sanity/lib/write';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
+import { nanoid } from 'nanoid';
 
-export const createContent = async (
-	prevState: any,
-	formData: FormData,
-	pitch: string
-) => {
+interface FormDataType {
+	title: string;
+	description: string;
+	category: string[];
+	media: string[];
+	ingredients: { quantity: string; product: string }[];
+	steps: { instruction: string; time: number }[];
+}
+
+export const createContent = async (formData: FormDataType) => {
 	const session = await getServerSession(options);
 
-	if (!session)
+	if (!session) {
 		return parseServerActionResponse({
 			error: 'No user found',
 			status: 'ERROR',
 		});
+	}
 
-	const { title, description, category, link } = Object.fromEntries(
-		Array.from(formData).filter(([key]) => key !== 'pitch')
-	);
+	const { title, description, category, media, ingredients, steps } =
+		formData;
 
-	const slug = slugify(title as string, { lower: true, strict: true });
+	const slug = slugify(title, { lower: true, strict: true });
 
 	try {
-		const recipe = {
+		const recipes = {
 			title,
 			description,
 			category,
-			image: link,
+			media: media.map((assetId) => ({
+				_key: nanoid(),
+				_type: 'image',
+				asset: { _type: 'reference', _ref: assetId },
+			})),
 			slug: {
-				_type: slug,
+				_type: 'slug',
 				current: slug,
 			},
+			ingredients,
+			steps,
 			author: {
 				_type: 'reference',
-				_ref: session?.id,
+				_ref: session.id,
 			},
-			pitch,
 		};
 
 		const result = await writeClient.create({
-			_type: 'recipe',
-			...recipe,
+			_type: 'recipes',
+			...recipes,
 		});
 
 		return parseServerActionResponse({
@@ -54,13 +65,25 @@ export const createContent = async (
 			error: '',
 			status: 'SUCCESS',
 		});
-	} catch (error) {
-		console.log(error);
-
+	} catch (err) {
+		console.error(err);
 		return parseServerActionResponse({
-			error: JSON.stringify(error),
+			error: JSON.stringify(err),
 			status: 'ERROR',
 		});
+	}
+};
+
+export const uploadImageToSanity = async (file: File): Promise<string> => {
+	try {
+		const asset = await writeClient.assets.upload('image', file, {
+			contentType: file.type,
+			filename: file.name,
+		});
+		return asset._id; // Return the asset ID for referencing in documents
+	} catch (err) {
+		console.error('Error uploading image to Sanity:', err);
+		throw new Error('Failed to upload image to Sanity');
 	}
 };
 
