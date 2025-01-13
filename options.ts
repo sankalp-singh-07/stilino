@@ -1,10 +1,10 @@
-// import NextAuthOptions from 'next-auth/next';
 import Github from 'next-auth/providers/github';
 import { client } from './sanity/lib/client';
 import { AUTHOR_BY_GITHUB_ID_QUERY } from './sanity/lib/queries';
 import { writeClient } from './sanity/lib/write';
+import { NextAuthOptions } from 'next-auth';
 
-export const options = {
+export const options: NextAuthOptions = {
 	providers: [
 		Github({
 			clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -12,26 +12,31 @@ export const options = {
 		}),
 	],
 	callbacks: {
-		async signIn({
-			user: { name, email, image },
-			profile: { id, login, bio },
-		}) {
-			const existingUser = await client
-				.withConfig({ useCdn: false })
-				.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-					id,
-				});
+		async signIn({ user, account, profile }) {
+			if (profile) {
+				const { id, login, bio } = profile as {
+					id: string;
+					login: string;
+					bio?: string;
+				};
 
-			if (!existingUser) {
-				await writeClient.create({
-					_type: 'author',
-					id,
-					name,
-					username: login,
-					email,
-					image,
-					bio: bio || '',
-				});
+				const existingUser = await client
+					.withConfig({ useCdn: false })
+					.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
+						id,
+					});
+
+				if (!existingUser) {
+					await writeClient.create({
+						_type: 'author',
+						id,
+						name: user.name,
+						username: login,
+						email: user.email,
+						image: user.image,
+						bio: bio || '',
+					});
+				}
 			}
 
 			return true;
@@ -41,7 +46,7 @@ export const options = {
 				const user = await client
 					.withConfig({ useCdn: false })
 					.fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-						id: profile?.id,
+						id: (profile as { id: string }).id,
 					});
 
 				token.id = user?._id;
