@@ -75,7 +75,7 @@ body {
 	}
 
 	.section_container {
-		@apply px-6 py-10 max-w-7xl mr-auto;
+		@apply px-6 py-10 max-w-full;
 	}
 
 	.post-container {
@@ -112,6 +112,14 @@ body {
 
 	.item-card_skeleton {
 		@apply w-full h-96 rounded-[22px] bg-zinc-400;
+	}
+
+	.card_grid {
+		@apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
+	}
+
+	.card_grid-sm {
+		@apply grid sm:grid-cols-2 gap-5;
 	}
 
 	.content-form {
@@ -223,14 +231,6 @@ body {
     .sub-heading {
         @apply font-medium text-[20px] text-white max-w-2xl text-center break-words;
     } */
-
-	.card_grid {
-		@apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
-	}
-
-	.card_grid-sm {
-		@apply grid sm:grid-cols-2 gap-5;
-	}
 
 	/* profile */
 

@@ -3,14 +3,19 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Author, Recipes } from '@/sanity/types';
+import { getLikes } from '@/lib/action';
+import { Heart } from 'lucide-react';
 
 export type ItemCardType = Omit<Recipes, 'author'> & { author?: Author };
 
-const ItemCard = ({ post }: { post: ItemCardType }) => {
+const ItemCard = async ({ post }: { post: ItemCardType }) => {
 	const { _createdAt, author, title, category, _id, media, description } =
 		post;
 
 	let mediaAsset = null;
+
+	const likes = await getLikes(_id);
+	console.log('likes for post', likes);
 
 	if (media) {
 		mediaAsset = media[0]?.asset;
@@ -18,8 +23,11 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 
 	return (
 		<li className="item-card group">
-			<div className="flex justify-between">
+			<div className="flex justify-between gap-2">
 				<p className="item-card_date">{dateFormat(_createdAt)}</p>
+				<p className="item-card_date flex justify-center items-center gap-2">
+					<Heart size={20} /> {likes}
+				</p>
 			</div>
 
 			<div className="flex justify-between mt-5 gap-5">
