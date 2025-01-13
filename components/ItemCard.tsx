@@ -7,17 +7,15 @@ import { Author, Recipes } from '@/sanity/types';
 export type ItemCardType = Omit<Recipes, 'author'> & { author?: Author };
 
 const ItemCard = ({ post }: { post: ItemCardType }) => {
-	const { _createdAt, author, title, category, _id, media, description } =
-		post;
+	// const { _createdAt, author, title, category, _id, media, description } =
+	// 	post;
+	const { _createdAt, author, title, category, _id, description } = post;
 
-	let mediaAsset: { url?: string } | null = null;
+	// let mediaAsset: { url?: string } | null = null;
 
-	if (media && media.length > 0) {
-		mediaAsset =
-			media[0]?.asset && typeof media[0].asset.url === 'string'
-				? { url: media[0].asset.url }
-				: null;
-	}
+	// if (media && media.length > 0) {
+	// 	console.log(media[0]._key);
+	// }
 
 	return (
 		<li className="item-card group">
@@ -49,13 +47,13 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 
 			<Link href={`/content/${_id}`}>
 				<p className="item-card_desc">{description}</p>
-				{mediaAsset && (
+				{/* {mediaAsset && (
 					<img
 						src={mediaAsset?.url}
 						alt="placeholder"
 						className="item-card_img"
 					/>
-				)}
+				)} */}
 			</Link>
 
 			<div className="flex justify-between mt-5">
