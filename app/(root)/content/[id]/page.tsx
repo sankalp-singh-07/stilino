@@ -14,6 +14,7 @@ import { getServerSession } from 'next-auth';
 import { options } from '@/options';
 import LikeButton from '@/components/LikeHelper';
 import ItemCardHelper from '@/components/ItemCardHelper';
+import Footer from '@/components/Footer';
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
@@ -159,8 +160,20 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						</div>
 					</div>
 				</div>
-				<div>{<ItemCardHelper posts={recipes} />}</div>
+				<div>
+					{recipes.length > 0 && (
+						<div className="mt-12 border-opacity-30 border-t-2 border-primary">
+							<h1 className="text-3xl mt-6 text-center text-black font-semibold uppercase">
+								More Posts By {author.name}
+							</h1>
+							<ItemCardHelper posts={recipes} />
+						</div>
+					)}
+				</div>
 			</div>
+			<Footer
+				message={`Subscribe to keep up with fresh blogs by ${author.name}.`}
+			/>
 		</>
 	);
 };

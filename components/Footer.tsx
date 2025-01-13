@@ -1,7 +1,7 @@
 'use client';
 import { FormEvent, useState } from 'react';
 
-const Footer = () => {
+const Footer = ({ message }: { message: string }) => {
 	const [email, setEmail] = useState('');
 
 	const handleSubmit = (e: FormEvent) => {
@@ -24,8 +24,7 @@ const Footer = () => {
 				</h1>
 				<div className="w-full flex items-center justify-center flex-col">
 					<p className="font-normal text-sm sm:text-base text-white max-w-2xl text-center">
-						Subscribe to keep up with fresh blogs. We promise not to
-						spam you 😊
+						{message}
 					</p>
 					<form
 						onSubmit={handleSubmit}

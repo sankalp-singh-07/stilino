@@ -46,7 +46,10 @@ export default async function Home({
 				</div>
 			</div>
 			<SanityLive />
-			<Footer />
+			<Footer
+				message="Subscribe to keep up with fresh blogs. We promise not to
+						spam you 😊"
+			/>
 		</>
 	);
 }
