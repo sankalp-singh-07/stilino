@@ -1,35 +1,31 @@
 import { dateFormat } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
-import { RECIPE_BY_ID_QUERY } from '@/sanity/lib/queries';
-import { Heart, Share } from 'lucide-react';
+import {
+	RECIPE_BY_ID_QUERY,
+	RECIPES_BY_AUTHOR_ID_QUERY,
+} from '@/sanity/lib/queries';
+import { Share } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
-import markdownit from 'markdown-it';
 import { getLikes } from '@/lib/action';
 import Likes from '@/components/Likes';
 import { getServerSession } from 'next-auth';
 import { options } from '@/options';
 import LikeButton from '@/components/LikeHelper';
-// export const experimental_ppr = true;
+import ItemCardHelper from '@/components/ItemCardHelper';
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
-	// console.log(id);
 
-	const likesCount = getLikes(id);
+	const likesCount = await getLikes(id);
 
 	const session = await getServerSession(options);
 	const userId = session.id;
-	// console.log(userId);
 
 	const post = await client.fetch(RECIPE_BY_ID_QUERY, { id });
 
 	if (!post) return notFound();
-
-	const md = markdownit();
-	// const contentParsed = md.render(post?.pitch || '');
-	console.log(post);
 
 	let totalTime = 0;
 
@@ -46,12 +42,15 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	} = post;
 
 	let mediaAsset = null;
+	const authorId = author?._id;
+	const recipes = await client.fetch(RECIPES_BY_AUTHOR_ID_QUERY, {
+		authorId,
+		id,
+	});
 
 	if (media) {
 		mediaAsset = media[0]?.asset;
 	}
-
-	console.log(ingredients, steps);
 
 	return (
 		<>
@@ -160,6 +159,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						</div>
 					</div>
 				</div>
+				<div>{<ItemCardHelper posts={recipes} />}</div>
 			</div>
 		</>
 	);

@@ -122,3 +122,36 @@ export const RECIPES_BY_AUTHOR_QUERY =
     time
   },
 }`);
+
+export const RECIPES_BY_AUTHOR_ID_QUERY =
+	defineQuery(`*[_type == "recipes" && author._ref == $authorId && _id != $id] | order(_createdAt desc) {
+    _id, 
+    title, 
+    slug,
+    _createdAt,
+    author -> {
+      _id, 
+      name, 
+      username, 
+      image, 
+      bio
+    }, 
+    description,
+    category,
+    media[] {
+      _type,
+      asset -> {
+        _id,
+        url
+      },
+      hotspot
+    },
+  ingredients[] {
+    quantity,
+    product
+  },
+  steps[] {
+    instruction,
+    time
+  },
+}`);

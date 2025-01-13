@@ -12,7 +12,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
 
 	const likedPostsArr = await getLikedPosts(id);
-	// console.log(likedPostsArr);
 
 	const session = await getServerSession(options);
 
