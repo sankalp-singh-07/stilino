@@ -3,7 +3,6 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Author, Recipes } from '@/sanity/types';
-import Image from 'next/image';
 
 export type ItemCardType = Omit<Recipes, 'author'> & { author?: Author };
 
@@ -14,7 +13,10 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 	let mediaAsset: { url?: string } | null = null;
 
 	if (media && media.length > 0) {
-		mediaAsset = media[0]?.asset ? { url: media[0].asset._ref } : null;
+		mediaAsset =
+			media[0]?.asset && typeof media[0].asset.url === 'string'
+				? { url: media[0].asset.url }
+				: null;
 	}
 
 	return (
@@ -48,8 +50,8 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 			<Link href={`/content/${_id}`}>
 				<p className="item-card_desc">{description}</p>
 				{mediaAsset && (
-					<Image
-						src={mediaAsset?.url || '/default-placeholder.png'}
+					<img
+						src={mediaAsset?.url}
 						alt="placeholder"
 						className="item-card_img"
 					/>

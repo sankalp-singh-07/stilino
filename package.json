@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/firebase": "^3.2.3",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^20.17.12",
     "@types/react": "^19",
