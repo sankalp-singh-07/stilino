@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import ItemCard, { ItemCardType } from '@/components/ItemCard';
+import ItemCardHelper from '@/components/ItemCardHelper';
 import Searchbar from '@/components/Searchbar';
 import { options } from '@/options';
 // import { client } from '@/sanity/lib/client';
@@ -42,15 +42,7 @@ export default async function Home({
 							? `Search results for "${query}"`
 							: 'Our Top Recipes'}
 					</p>
-					<ul className="mt-6 card_grid">
-						{posts?.length > 0 ? (
-							posts.map((post: ItemCardType) => (
-								<ItemCard key={post._id} post={post} />
-							))
-						) : (
-							<p className="no-results">No items found 😅</p>
-						)}
-					</ul>
+					<ItemCardHelper posts={posts} />
 				</div>
 			</div>
 			<SanityLive />
