@@ -42,7 +42,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 				</div>
 				<div className="flex flex-col gap-10">
 					<div className="flex-1 flex flex-col gap-5 lg:-mt-5">
-						<p className="text-30-bold">
+						<p className="text-[30px] font-bold">
 							{session?.id === id ? 'Your' : 'All'} Recipes
 						</p>
 						<Suspense fallback={<p>Loading...</p>}>
@@ -53,7 +53,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 					</div>
 
 					<div className="flex-1 flex flex-col gap-5 lg:-mt-5">
-						<p className="text-30-bold">Liked Recipes</p>
+						<p className="text-[30px] font-bold">Liked Recipes</p>
 						<Suspense fallback={<p>Loading...</p>}>
 							<ul className="card_grid-sm">
 								{likedPostsArr.length > 0 ? (
