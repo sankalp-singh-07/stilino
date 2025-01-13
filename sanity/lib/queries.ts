@@ -1,36 +1,37 @@
 import { defineQuery } from 'next-sanity';
 
-export const RECIPES_QUERY =
-	defineQuery(`*[_type == "recipes" && defined(slug.current) && (!defined($search) || title match $search || category[] match $search || author->name match $search)] | order(_createdAt desc) {
-  _id,
-  title,
-  slug,
-  _createdAt,
-  author -> {
+export const RECIPES_QUERY = defineQuery(`
+  *[_type == "recipes" && defined(slug.current) && (!defined($search) || title match $search || category[] match $search || author->name match $search)] | order(_createdAt desc) {
     _id,
-    name,
-    image,
-    bio
-  },
-  description,
-  category,
-     media[] {
+    title,
+    slug,
+    _createdAt,
+    author -> {
+      _id,
+      name,
+      image,
+      bio
+    },
+    description,
+    category,
+    media[] {
       _type,
       asset -> {
         _id,
-        url
+        url 
       },
       hotspot
     },
-  ingredients[] {
-    quantity,
-    product
-  },
-  steps[] {
-    instruction,
-    time
-  },
-}`);
+    ingredients[] {
+      quantity,
+      product
+    },
+    steps[] {
+      instruction,
+      time
+    },
+  }
+`);
 
 export const RECIPE_BY_ID_QUERY = defineQuery(`
   *[_type == "recipes" && _id == $id][0]{

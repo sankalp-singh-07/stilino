@@ -12,8 +12,8 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 
 	let mediaAsset = null;
 
-	if (media) {
-		mediaAsset = media[0]?.asset;
+	if (media && media.length > 0) {
+		mediaAsset = media[0]?.asset || null;
 	}
 
 	return (
@@ -48,7 +48,7 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 				<p className="item-card_desc">{description}</p>
 				{mediaAsset && (
 					<img
-						src={mediaAsset?.url || null}
+						src={mediaAsset?.url || '/default-placeholder.png'}
 						alt="placeholder"
 						className="item-card_img"
 					/>
