@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { db } from '../lib/firebase';
 import {
@@ -17,55 +18,32 @@ type LikeButtonProps = {
 };
 
 const LikeButton = ({ postId, userId }: LikeButtonProps) => {
-	const [likesCount, setLikesCount] = useState(0);
 	const [liked, setLiked] = useState(false);
-
-	const initializeFirestore = async () => {
-		const postRef = doc(db, 'likes', postId);
-		const userRef = doc(db, 'users', userId);
-
-		const postSnap = await getDoc(postRef);
-		if (!postSnap.exists()) {
-			await setDoc(postRef, { users: [] });
-		}
-
-		const userSnap = await getDoc(userRef);
-		if (!userSnap.exists()) {
-			await setDoc(userRef, { likedPosts: [] });
-		}
-	};
 
 	const handleLikeToggle = async () => {
 		try {
 			const postRef = doc(db, 'likes', postId);
 			const userRef = doc(db, 'users', userId);
 
-			const postSnap = await getDoc(postRef);
-			if (!postSnap.exists()) {
-				await setDoc(postRef, { users: [] });
-			}
+			// Ensure the `likes` and `users` documents exist
+			const [postSnap, userSnap] = await Promise.all([
+				getDoc(postRef),
+				getDoc(userRef),
+			]);
+			if (!postSnap.exists()) await setDoc(postRef, { users: [] });
+			if (!userSnap.exists()) await setDoc(userRef, { likedPosts: [] });
 
-			const userSnap = await getDoc(userRef);
-			if (!userSnap.exists()) {
-				await setDoc(userRef, { likedPosts: [] });
-			}
-
+			// Toggle like
 			if (liked) {
-				await updateDoc(postRef, {
-					users: arrayRemove(userId),
-				});
-				await updateDoc(userRef, {
-					likedPosts: arrayRemove(postId),
-				});
-				setLikesCount((prev) => prev - 1);
+				await Promise.all([
+					updateDoc(postRef, { users: arrayRemove(userId) }),
+					updateDoc(userRef, { likedPosts: arrayRemove(postId) }),
+				]);
 			} else {
-				await updateDoc(postRef, {
-					users: arrayUnion(userId),
-				});
-				await updateDoc(userRef, {
-					likedPosts: arrayUnion(postId),
-				});
-				setLikesCount((prev) => prev + 1);
+				await Promise.all([
+					updateDoc(postRef, { users: arrayUnion(userId) }),
+					updateDoc(userRef, { likedPosts: arrayUnion(postId) }),
+				]);
 			}
 
 			setLiked(!liked);

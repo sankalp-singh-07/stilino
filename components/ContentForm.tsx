@@ -130,7 +130,7 @@ const ContentForm = () => {
 			<div className="mx-4 mt-3 mb-6 ">
 				<div className="w-full bg-primary md:min-h-[120px] min-h-[120px] flex justify-center items-center flex-col md:py-10 py-3 px-3 rounded-lg">
 					<h1 className="uppercase px-4 py-2 tracking-tighter font-semibold text-whiteBg md:text-[60px] sm:leading-[64px] sm:text-[44px] text-[24px] leading-[30px] max-w-5xl text-center my-5">
-						Let's <span className="text-secondary">cook</span>{' '}
+						Let&apos;s <span className="text-secondary">cook</span>{' '}
 						something <span className="text-secondary">YUMMY</span>.
 					</h1>
 				</div>
