@@ -32,15 +32,15 @@ const UserPanel = ({ session }: { session: Session }) => {
 					</Avatar>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="w-56 text-left text-2xl font-semibold bg-primary text-white mt-2 mr-4">
-					<DropdownMenuItem className="hover:bg-tertiary cursor-pointer">
-						<Link
-							href={`/user/${session.id}`}
-							className="flex gap-2 items-center"
-						>
+					<Link
+						href={`/user/${session.id}`}
+						className="flex gap-2 items-center  hover:bg-tertiary cursor-pointer"
+					>
+						<DropdownMenuItem>
 							<User className="size-4" />
 							<span>PROFILE</span>
-						</Link>
-					</DropdownMenuItem>
+						</DropdownMenuItem>
+					</Link>
 					<DropdownMenuSeparator className="my-1 border-2 border-opacity-10 border-secondary" />
 					<DropdownMenuItem
 						className="hover:bg-tertiary cursor-pointer"

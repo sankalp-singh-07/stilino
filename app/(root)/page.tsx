@@ -16,14 +16,9 @@ export default async function Home({
 
 	const params = { search: query || null };
 
-	// const posts = await client.fetch(RECIPES_QUERY);
-
 	const session = await getServerSession(options);
-	// if (session) console.log(session?.id);
 
 	const { data: posts } = await sanityFetch({ query: RECIPES_QUERY, params });
-
-	// console.log(JSON.stringify(posts));
 
 	return (
 		<>
