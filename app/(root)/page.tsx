@@ -1,11 +1,8 @@
 import Footer from '@/components/Footer';
 import ItemCardHelper from '@/components/ItemCardHelper';
 import Searchbar from '@/components/Searchbar';
-import { options } from '@/options';
-// import { client } from '@/sanity/lib/client';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { RECIPES_QUERY } from '@/sanity/lib/queries';
-import { getServerSession } from 'next-auth/next';
 
 export default async function Home({
 	searchParams,
@@ -15,8 +12,6 @@ export default async function Home({
 	const query = (await searchParams).query;
 
 	const params = { search: query || null };
-
-	const session = await getServerSession(options);
 
 	const { data: posts } = await sanityFetch({ query: RECIPES_QUERY, params });
 

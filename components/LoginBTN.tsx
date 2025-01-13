@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { signIn } from 'next-auth/react';
-import Github from 'next-auth/providers/github';
 
 const LoginBTN = () => {
 	return (

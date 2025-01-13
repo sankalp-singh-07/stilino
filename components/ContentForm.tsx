@@ -11,7 +11,7 @@ import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
 
 const ContentForm = () => {
-	const [error, setError] = useState<Record<string, string[]>>({});
+	const [error] = useState<Record<string, string[]>>({});
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [categories, setCategories] = useState<string[]>([]);

@@ -22,7 +22,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const likesCount = await getLikes(id);
 
 	const session = await getServerSession(options);
-	const userId = session.id;
+	const userId = session?.id || null;
 
 	const post = await client.fetch(RECIPE_BY_ID_QUERY, { id });
 
@@ -35,7 +35,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 		author,
 		title,
 		category,
-		_id,
 		media,
 		description,
 		ingredients,
@@ -86,10 +85,12 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						</div>
 					</Link>
 					<div className="h-full  gap-7 flex items-center">
-						<div className="flex cursor-pointer gap-1 items-center">
-							<LikeButton postId={id} userId={userId} />
-							<Likes postId={id} initialLikes={likesCount} />
-						</div>
+						{userId && (
+							<div className="flex cursor-pointer gap-1 items-center">
+								<LikeButton postId={id} userId={userId} />
+								<Likes postId={id} initialLikes={likesCount} />
+							</div>
+						)}
 						<div className="like flex items-center cursor-pointer">
 							<Share className="size-6 text-white" />
 						</div>
