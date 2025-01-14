@@ -20,7 +20,6 @@ import ShareMedia from '@/components/ShareMedia';
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -199,9 +198,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 					)}
 				</div>
 			</div>
-			<Footer
-				message={`Subscribe to keep up with fresh blogs by ${author.name}.`}
-			/>
+			<Footer />
 		</Suspense>
 	);
 };
