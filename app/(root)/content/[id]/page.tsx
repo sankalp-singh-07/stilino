@@ -7,7 +7,7 @@ import {
 import { Share } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { getLikes } from '@/lib/action';
 import Likes from '@/components/Likes';
 import { getServerSession } from 'next-auth';
@@ -15,6 +15,7 @@ import { options } from '@/options';
 import LikeButton from '@/components/LikeHelper';
 import ItemCardHelper from '@/components/ItemCardHelper';
 import Footer from '@/components/Footer';
+import Loading from '@/app/loading';
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
@@ -53,7 +54,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	}
 
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<div className="ml-4 mr-4 mt-3 mb-6 ">
 				<div className="hero_container">
 					<p className="sub-heading-post">
@@ -61,11 +62,11 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 					</p>
 					<h1 className="heading-post">{title}</h1>
 					<p className="sub-heading-post">{description}</p>
-					<div className="flex flex-wrap items-center justify-center gap-2 w-1/2">
+					<div className="flex flex-wrap items-center justify-center gap-2 w-1/2 mt-8">
 						{category?.map((set: string, ind: number) => (
 							<div key={ind}>
 								<Link href={`/?query=${set?.toLowerCase()}`}>
-									<p className="text-white text-sm font-medium bg-red-400 px-3 py-2 mt-8 rounded-full">
+									<p className="text-white text-sm font-medium bg-red-400 px-3 py-2 rounded-full">
 										{set}
 									</p>
 								</Link>
@@ -175,7 +176,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 			<Footer
 				message={`Subscribe to keep up with fresh blogs by ${author.name}.`}
 			/>
-		</>
+		</Suspense>
 	);
 };
 
