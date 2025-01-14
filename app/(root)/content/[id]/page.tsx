@@ -112,7 +112,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 											Share Recipe via:
 										</DialogTitle>
 										<ShareMedia
-											postUrl={`http://localhost:3000/content/${id}`}
+											postUrl={`https://www.stilino.food/content/${id}`}
 											postInfo={{ title, description }}
 											postImg={mediaAsset?.url || ''}
 										/>

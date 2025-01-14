@@ -46,29 +46,22 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						<p className="text-[30px] font-bold">
 							{session?.id === id ? 'Your' : 'All'} Recipes
 						</p>
-						<Suspense fallback={<p>Loading...</p>}>
-							<ul className="card_grid-sm">
-								<UserRecipes id={id} />
-							</ul>
-						</Suspense>
+						<ul className="card_grid-sm">
+							<UserRecipes id={id} />
+						</ul>
 					</div>
 
 					<div className="flex-1 flex flex-col gap-5 lg:-mt-5">
 						<p className="text-[30px] font-bold">Liked Recipes</p>
-						<Suspense fallback={<p>Loading...</p>}>
-							<ul className="card_grid-sm">
-								{likedPostsArr.length > 0 ? (
-									likedPostsArr.map((likedId: string) => (
-										<LikedRecipes
-											id={likedId}
-											key={likedId}
-										/>
-									))
-								) : (
-									<p className="no-result">No posts yet</p>
-								)}
-							</ul>
-						</Suspense>
+						<ul className="card_grid-sm">
+							{likedPostsArr.length > 0 ? (
+								likedPostsArr.map((likedId: string) => (
+									<LikedRecipes id={likedId} key={likedId} />
+								))
+							) : (
+								<p className="no-result">No posts yet</p>
+							)}
+						</ul>
 					</div>
 				</div>
 			</div>
