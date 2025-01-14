@@ -1,10 +1,13 @@
+import Loading from '@/app/loading';
 import ContentForm from '@/components/ContentForm';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const page = () => {
 	return (
 		<div>
-			<ContentForm />
+			<Suspense fallback={<Loading />}>
+				<ContentForm />
+			</Suspense>
 		</div>
 	);
 };

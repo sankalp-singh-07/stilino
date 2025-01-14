@@ -1,3 +1,4 @@
+import Loading from '@/app/loading';
 import LikedRecipes from '@/components/LikedRecipes';
 import UserRecipes from '@/components/UserRecipes';
 import { getLikedPosts } from '@/lib/action';
@@ -20,7 +21,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	if (!user) return notFound();
 
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<div className="profile_container">
 				<div className="profile_card">
 					<div className="profile_title">
@@ -71,7 +72,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 					</div>
 				</div>
 			</div>
-		</>
+		</Suspense>
 	);
 };
 
