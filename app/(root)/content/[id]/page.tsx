@@ -16,9 +16,19 @@ import LikeButton from '@/components/LikeHelper';
 import ItemCardHelper from '@/components/ItemCardHelper';
 import Footer from '@/components/Footer';
 import Loading from '@/app/loading';
+import ShareMedia from '@/components/ShareMedia';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
+	console.log(id);
 
 	const likesCount = await getLikes(id);
 
@@ -93,7 +103,23 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 							</div>
 						)}
 						<div className="like flex items-center cursor-pointer">
-							<Share className="size-6 text-white" />
+							<Dialog>
+								<DialogTrigger>
+									<Share className="size-6 text-white" />
+								</DialogTrigger>
+								<DialogContent className="text-white bg-primary">
+									<DialogHeader>
+										<DialogTitle className="text-center mb-6">
+											Share Recipe via:
+										</DialogTitle>
+										<ShareMedia
+											postUrl={`http://localhost:3000/content/${id}`}
+											postInfo={{ title, description }}
+											postImg={mediaAsset?.url || ''}
+										/>
+									</DialogHeader>
+								</DialogContent>
+							</Dialog>
 						</div>
 					</div>
 				</div>
