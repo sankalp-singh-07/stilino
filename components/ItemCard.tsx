@@ -11,12 +11,6 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 	// 	post;
 	const { _createdAt, author, title, category, _id, description } = post;
 
-	// let mediaAsset: { url?: string } | null = null;
-
-	// if (media && media.length > 0) {
-	// 	console.log(media[0]._key);
-	// }
-
 	return (
 		<li className="item-card group">
 			<div className="flex justify-between gap-2">
