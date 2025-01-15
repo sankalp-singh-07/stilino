@@ -1,7 +1,6 @@
 'use client';
-import { FormEvent, useState } from 'react';
 
-const Footer = ({ message }: { message: string }) => {
+const Footer = () => {
 	// const [email, setEmail] = useState('');
 
 	// const handleSubmit = (e: FormEvent) => {

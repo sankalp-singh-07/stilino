@@ -27,7 +27,6 @@ import {
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const id = (await params).id;
-	console.log(id);
 
 	const likesCount = await getLikes(id);
 

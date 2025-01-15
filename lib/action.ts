@@ -80,7 +80,7 @@ export const uploadImageToSanity = async (file: File): Promise<string> => {
 			contentType: file.type,
 			filename: file.name,
 		});
-		return asset._id; // Return the asset ID for referencing in documents
+		return asset._id;
 	} catch (err) {
 		console.error('Error uploading image to Sanity:', err);
 		throw new Error('Failed to upload image to Sanity');
