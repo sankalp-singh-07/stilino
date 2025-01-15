@@ -74,7 +74,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 						{category?.map((set: string, ind: number) => (
 							<div key={ind}>
 								<Link href={`/?query=${set?.toLowerCase()}`}>
-									<p className="text-white text-sm font-medium bg-red-400 px-3 py-2 rounded-full">
+									<p className="text-white text-sm font-medium bg-[#174983] px-3 py-2 rounded-full">
 										{set}
 									</p>
 								</Link>
