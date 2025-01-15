@@ -18,7 +18,7 @@ export const RECIPES_QUERY = defineQuery(`
       _type,
       asset -> {
         _id,
-        url 
+        url
       },
       hotspot
     },

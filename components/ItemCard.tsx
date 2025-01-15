@@ -10,8 +10,7 @@ const ItemCard = ({ post }: { post: ItemCardType }) => {
 	const { _createdAt, author, title, category, _id, media, description } =
 		post;
 
-	const mediaUrl = media?.[0]?.asset?.url;
-
+	const mediaUrl = (media?.[0]?.asset as { url?: string })?.url;
 	return (
 		<li className="item-card group">
 			<div className="flex justify-between gap-2">

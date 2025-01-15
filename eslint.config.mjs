@@ -16,6 +16,7 @@ const eslintConfig = [
 			// Disable the rule that enforces the use of <Image />
 			'@next/next/no-img-element': 'off',
 			'@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+			'@typescript-eslint/no-unsafe-member-access': 'off',
 		},
 	},
 ];
